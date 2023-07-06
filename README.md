@@ -33,6 +33,25 @@ docker run -p 8888:8888 --env-file .env -v "%cd%/bootcamp:/bootcamp" bootcamp
 
 This may take a while for the initial run to build the docker image. Once it is done, this will start a Jupyter server in the docker container, accessible via port 8888. On your host machine, launch your browser https://localhost:8888 to access the Jupyter lab.
 
+## GitHub CodeSpace 
+You can run the notebooks remotely on GitHub's CodeSpace, free for a limited number of hours. The repo is set up to do so, with a caveat below. 
+
+1. Clone this repo to your own GitHub account. Use your own fork please.
+1. In your own fork, using the GitHub web UI, under the `code` tab, click the green `<>Code` button, and select `CodeSpace`
+1. If you haven't created a codespace for this project, select `Create a codespace on main`. This will launch the codespace -- effectively creating a VM for you. We use the standard GitHub Jupyter CodeSpace template, see [.devcontainer.json].
+  - Note that this reads from [requirements.txt] when building the VM. This uses a different docker base image and different libraries from the `docker` solution above. So far I haven't noticed anything worth fixing.
+1. If all goes well, you will see a VS Code interface in the web UI -- running in the VM. 
+1. On the left hand side, open a notebook file, and it will automatically launch Jupyter in the main editor. 
+  - In some cases you may see strange errors, while the VM is finishing installing some stuff. You can see the log in the terminal window. After that settles, rerun the notebook/cell.
+1. You should be able to run the notebook cells -- you may need to select the `kernel` the first time running. Choose the local Python kernel. 
+
+**Caveat:**: If you start the notebooks this way, you don't have the `OPENAI_API_KEY` environment variable set in the VM (which we do in the `docker` solution). I haven't figured out a way to do so without exposing your API key to the world. The workaround is to change the code and run something like 
+
+```python
+openai.api_key = "sk-xxxxx"
+```
+first. Once you run it, you can delete this line so that others don't see the API key. 
+
 ## Local Python installation
 This is not recommended for the Bootcamp, and should be used as a last resort. You are likely to run into version conflicts or mess up your other projects if you are not familar with Python environment isolation. But if you know what you are doing, nothing will stop you. 
 
